@@ -5,43 +5,45 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-from shorten import shorten 
-from ..fonts import *
-from ..templates import *
+from func.shorten import shorten 
+
 
 # Add name, institute and title to certificate
 def maker( ID, name, institute, title ):
-    img = Image.open("certi.png")
+    abspath = os.path.abspath("")
+    templates_dir = os.path.join(abspath, "templates")
+    img = Image.open(f'{templates_dir}/certi.png')
     draw = ImageDraw.Draw(img)
 
     # Load font
-    font = ImageFont.truetype("RobotoCondensed-Regular.ttf", 70)
-    font2 = ImageFont.truetype("RobotoCondensed-Regular.ttf", 60)
-    font1 = ImageFont.truetype("RobotoCondensed-Regular.ttf", 90)
+    fonts_dir = os.path.join(abspath, "fonts")
+    font = ImageFont.truetype(f"{fonts_dir}/RobotoCondensed-Regular.ttf", 70)
+    font2 = ImageFont.truetype(f"{fonts_dir}/RobotoCondensed-Regular.ttf", 60)
+    font1 = ImageFont.truetype(f"{fonts_dir}/RobotoCondensed-Regular.ttf", 90)
 
     # Check sizes and if it is possible to abbreviate
-    # if not the IDs are added to an error list
-    if ( len( name ) > 30 ):
-        name = shorten( name, 30 )
-    if ( len( institute ) > 60 ):
-        institute = shorten( institute, 60 )
-    if ( len( topic ) > 20 ):
-        topic = shorten( topic, 20 )
+    if ( len( name ) > 20 ):
+        name = shorten( name, 20 )
+    if ( len( institute ) > 50 ):
+        institute = shorten( institute, 50 )
+    if ( len( title ) > 15 ):
+        title = shorten( title, 15 )
 
-    if name == -1 or topic == -1 or institute == -1 :
+    if name == -1 or title == -1 or institute == -1 :
         return -1
     else:
         # Insert text into image template
         draw.text( (1730, 1160), name, (64,64,64), font=font1 )
         draw.text( (720, 1280), institute, (64,64,64), font=font2 )
-        draw.text( (930, 1375), topic, (64,64,64), font=font )
+        draw.text( (930, 1375), title, (64,64,64), font=font )
 
-        if not os.path.exists( 'certificates' ) :
-            os.makedirs( 'certificates' )
+        main_dir = os.path.join(abspath, "certificates")
+        if not os.path.isdir(main_dir) :
+            os.makedirs(main_dir)
 
         # Save as a PDF
         if img.mode == 'RGBA':
             img = img.convert('RGB')
         
-        img.save( '/certificates/certificates\\'+str(ID)+'.pdf', "PDF", resolution=100.0)
-        return 'certificates\\'+str(ID)+'.pdf'
+        img.save( f'{main_dir}/certificate\\'+str(ID)+'.pdf', "PDF", resolution=100.0)
+        return  f'{main_dir}/certificate\\' + str(ID)+ '.pdf'
