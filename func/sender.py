@@ -9,7 +9,7 @@ from config.credentials import *
 
 
 # Email the certificate as an attachment
-def sender( filepath, receiver ):
+def sender( filepath, filename, receiver ):
     username = user_mail
     password = mail_password
 
@@ -26,7 +26,7 @@ def sender( filepath, receiver ):
 
     # Attachment
     part = MIMEApplication(open(filepath,"rb").read())
-    part.add_header('Content-Disposition', 'attachment', filepath = os.path.basename(filepath))
+    part.add_header('Content-Disposition', 'attachment', filepath = os.path.basename(filepath), filename=filename)
     msg.attach( part )
 
     server = smtplib.SMTP( 'smtp.gmail.com:587' )
