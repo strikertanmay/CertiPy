@@ -46,4 +46,4 @@ def maker( ID, name, institute, title ):
             img = img.convert('RGB')
         
         img.save( f'{main_dir}/certificate\\'+str(ID)+'.pdf', "PDF", resolution=100.0)
-        return  f'{main_dir}/certificate\\' + str(ID)+ '.pdf'
+        return  f'{main_dir}/certificate\\' + str(ID)+ '.pdf' , 'certificate\\' + str(ID) + '.pdf'

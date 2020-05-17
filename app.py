@@ -38,11 +38,11 @@ def put_data():
         title = WorkSheet.cell_value( row, 4 )
 
         # Make certificate and check if it was successful
-        filepath = maker( ID, name, institute, title )
-     
+        filepath , filename = maker( ID, name, institute, title )
+        
         # Successfully made certificate
         if filepath != -1:
-            sender( filepath, receiver )
+            sender( filepath, filename, receiver )
             logging.info(f'Sent to {ID}')
         else:
             error_list.append( ID )
