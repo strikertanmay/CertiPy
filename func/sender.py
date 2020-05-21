@@ -1,5 +1,6 @@
 import smtplib
 import os
+import logging
 
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
@@ -29,8 +30,13 @@ def sender( filepath, filename, receiver ):
     part.add_header('Content-Disposition', 'attachment', filepath = os.path.basename(filepath), filename=filename)
     msg.attach( part )
 
-    server = smtplib.SMTP( 'smtp.gmail.com:587' )
-    server.starttls()
-    server.login( username, password )
-    server.sendmail( msg['From'], msg['To'], msg.as_string() )
+    try:
+        server = smtplib.SMTP( 'smtp.gmail.com:587' )
+        server.starttls()
+        server.login( username, password )
+        server.sendmail( msg['From'], msg['To'], msg.as_string() )
+        return 1
+    except Exception as e:
+        logging.error(e)
+        return 0
    
