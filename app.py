@@ -41,18 +41,17 @@ def put_data():
         filepath , filename = maker( ID, name, institute, title )
         
         # Successfully made certificate
-        if filepath != -1:
-            sender( filepath, filename, receiver )
-            logging.info(f'Sent to {ID}')
+        if filepath != -1 and sender( filepath, filename, receiver ):
+                logging.info(f'Sent to {ID}')
         else:
             error_list.append( ID )
             error_count += 1
     
     # Log of errors
     if error_count==0:
-        logging.info(f'{error_count} Errors')
+        logging.info(f'Errors = {error_count}')
     else:
-        logging.warning(f'{error_count} Errors \nList Of IDs for which error occured : ' + ','.join(error_list))
+        logging.warning(f'Errors = {error_count} \nList Of IDs for which error occured : ' + ','.join(error_list))
 
 if __name__ == "__main__":
     put_data()
