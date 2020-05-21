@@ -1,2 +1,2 @@
-user_mail = 'priyal9819gupta@gmail.com'
-mail_password = '8755853305'
+user_mail = 'username'
+mail_password = 'password'
