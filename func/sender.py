@@ -36,7 +36,7 @@ def sender( filepath, filename, receiver ):
         server.login( username, password )
         server.sendmail( msg['From'], msg['To'], msg.as_string() )
         return 1
-    except:
-        logging.error("Invalid Email address")
+    except Exception as e:
+        logging.error(e)
         return 0
    
